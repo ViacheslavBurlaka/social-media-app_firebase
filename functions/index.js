@@ -11,28 +11,33 @@ admin
   });
 
 
-// get documents from DB
-exports.getScreams = functions.https.onRequest((req, res) => {
-  admin.firestore().collection('screams').get().then(data => {
+const app = express();
+
+app.get('/screams', (req, res) => {
+  admin
+    .firestore()
+    .collection('screams')
+    .orderBy('createdAt', 'desc')
+    .get()
+    .then(data => {
       let screams = [];
       data.forEach(doc => {
-        screams.push(doc.data());
+        screams.push({
+          screamId: doc.id,
+          ...doc.data()
+        });
       });
       return res.json(screams);
     })
     .catch(err => console.error(err));
-});
+})
 
 // Create a documents
-exports.createScream = functions.https.onRequest((req, res) => {
-  if (req.method !== 'POST') {
-    return res.status(400).json({error: 'Method now allowed!'})
-  }
-
+app.post('/scream', (req, res) => {
   const newScream = {
     body: req.body.body,
     userHandle: req.body.userHandle,
-    createdAt: admin.firestore.Timestamp.fromDate(new Date())
+    createdAt: new Date().toISOString()
   };
 
   admin
@@ -47,3 +52,7 @@ exports.createScream = functions.https.onRequest((req, res) => {
       console.error(err);
     });
 });
+
+// https://baseurl.com/api/
+
+exports.api = functions.https.onRequest(app);
