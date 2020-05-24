@@ -43,11 +43,48 @@ app.get('/screams', (req, res) => {
     .catch(err => console.error(err));
 })
 
+
+// Authentication Middleware that protects connection to route
+const FBAuth = (req, res, next) => {
+  let idToken;
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    idToken = req.headers.authorization.split('Bearer ')[1];
+  } else {
+    console.error('Not token found')
+    return res.status(403).json({error: 'Unauthorized'})
+  }
+
+  admin
+    .auth()
+    .verifyIdToken(idToken)
+    .then(decodedIdToken => {
+      req.user = decodedIdToken;
+      console.log(decodedIdToken);
+      return database
+        .collection('users')
+        .where('userId', '==', req.user.uid)
+        .limit(1)
+        .get();
+    })
+    .then(data => {
+      req.user.handle = data.docs[0].data().handle;
+      return next();
+    })
+    .catch(err => {
+      console.error('Error while verifying token', err);
+      return res.status(403).json(err);
+    })
+}
+
 // Create a documents
-app.post('/scream', (req, res) => {
+app.post('/scream', FBAuth, (req, res) => {
+  if (req.body.body.trim() === '') {
+    return res.status(400).json({body: 'Body must not be an empty'})
+  }
+
   const newScream = {
     body: req.body.body,
-    userHandle: req.body.userHandle,
+    userHandle: req.user.handle,
     createdAt: new Date().toISOString()
   };
 
