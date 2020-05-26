@@ -15,7 +15,6 @@ module.exports = (req, res, next) => {
     .verifyIdToken(idToken)
     .then(decodedIdToken => {
       req.user = decodedIdToken;
-      console.log(decodedIdToken);
       return db
         .collection('users')
         .where('userId', '==', req.user.uid)
