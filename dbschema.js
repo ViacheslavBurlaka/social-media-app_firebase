@@ -1,14 +1,14 @@
 let db = {
   users: [
     {
-      userId: 'edHI4YMhdLdMHoGbqe4e88VuB7G3',
-      email: '',
-      handle: '',
-      createdAt: '',
-      imageUrl: '',
-      bio: '',
-      website: '',
-      location: ''
+      "createdAt": "2020-05-26T19:42:08.849Z",
+      "imageUrl": "image/dsfsdkfghskdfgs/dgfdhfgdh",
+      "userId": "MQ09rCh0OVaHX1piXJpdAfRaFJC2",
+      "bio": "Hello, i am a professional web developer",
+      "website": "http://my-site.it",
+      "location": "Italy, Milan",
+      "email": "karlo@email.com",
+      "handle": "Karlo"
     }
   ],
   screams: [
@@ -26,14 +26,14 @@ let db = {
 const userDetails = {
   // Redux data
   credentials: {
-    userId: 'N43KJ5H43KJHREW4J5H3JWMERHB',
+    userId: 'MQ09rCh0OVaHX1piXJpdAfRaFJC2',
     email: 'user@email.com',
     handle: 'user',
     createdAt: '2019-03-15T10:59:52.798Z',
     imageUrl: 'image/dsfsdkfghskdfgs/dgfdhfgdh',
     bio: 'Hello, my name is user, nice to meet you',
     website: 'https://user.com',
-    location: 'Lonodn, UK'
+    location: 'Manchester, UK'
   },
   likes: [
     {
