@@ -89,6 +89,7 @@ exports.getScream = (req, res) => {
       res.status(500).json({error: err.code});
     });
 };
+
 // Comment on a comment
 exports.commentOnScream = (req, res) => {
   if (req.body.body.trim() === '')
@@ -126,12 +127,14 @@ exports.commentOnScream = (req, res) => {
         .json({error: 'Something went wrong'});
     });
 };
+
 /**
  *
  * Like scream
  * @param req
  * @param res
- */exports.likeScream = (req, res) => {
+ */
+exports.likeScream = (req, res) => {
   const likeDocument = db
     .collection('likes')
     .where('userHandle', '==', req.user.handle)
