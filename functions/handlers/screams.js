@@ -34,13 +34,10 @@ exports.postOneScream = (req, res) => {
     return res.status(400).json({body: 'Body must not be an empty'})
   }
 
-  //TODO: fix req.user.imageUrl === undefined (???)
-  console.log('imageUrl', req.user.imageUrl);
-
   const newScream = {
     body: req.body.body,
     userHandle: req.user.handle,
-    // userImage: req.user.imageUrl,
+    userImage: req.user.imageUrl,
     createdAt: new Date().toISOString(),
     likeCount: 0,
     commentCount: 0
